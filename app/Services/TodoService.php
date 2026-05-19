@@ -17,8 +17,12 @@ class TodoService{
         }
 
    }
-   public function createTodo(){
+   public function createTodo(string $name){
     try {
+        $result=Todo::create([
+            "name"=> $name,
+        ]);
+        return $result;
     }
     catch (\Exception $th) {
         Log::error($th->getMessage());
