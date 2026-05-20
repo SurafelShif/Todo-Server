@@ -5,9 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class createTodoRequest extends FormRequest
+class updateTodoRequest extends FormRequest
 {
-   
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,17 +20,20 @@ class createTodoRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+        public function rules(): array
     {
         return [
-            "name"=>["required","string"],
+            "name"=>["required_without_all:is_finished","string"],
+            "is_finished"=>["required_without_all:name","boolean"],
         ];
     }
     public function messages(): array{
 
     return [
-        "name.required"=>"חסר שם המטלה",
+        "name.required_without_all"=>"חסר שם המטלה",
         "name.string"=>"שם המטלה אינו בפורמט הנכון",
+        "is_finished.required_without_all"=>"חסר סטטוס המטלה",
+        "is_finished.boolean"=>"סטטוס המטלה אינו בפורמט הנכון",
 
         ];
     }
