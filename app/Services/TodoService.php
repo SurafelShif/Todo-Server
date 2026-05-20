@@ -7,9 +7,10 @@ use App\Models\Todo;
 use Illuminate\Support\Facades\Log;
 
 class TodoService{
+
    public function getTodos(){
         try {
-            $todos=Todo::select(["id","name","is_finished","created_at"])->get();
+            $todos=Todo::where("is_deleted",false)->select(["id","name","is_finished","created_at"])->get();
             return $todos;
         } catch (\Exception $th) {
             Log::error($th->getMessage());
@@ -42,7 +43,7 @@ class TodoService{
                 $todo->is_finished=$is_finished;
             }
             $todo->save();
-            return "update todo";
+            return $todo;
         }
         catch (\Exception $th) {
             Log::error($th->getMessage());
@@ -50,4 +51,19 @@ class TodoService{
         }
 
     }
+    public function deleteTodo(int $id){
+    try { 
+        $todo=Todo::find($id);
+        if(!$todo){
+            return HttpStatusEnum::NOT_FOUND;
+        }
+        $todo->is_deleted=true;
+        $todo->save();
+        return $todo;
+    } catch (\Exception $th) {
+        Log::error($th->getMessage());
+        return HttpStatusEnum::INTERNAL_SERVER_ERROR;
+
+    }
+}
 }

@@ -8,4 +8,5 @@ Route::controller(TodoController::class)->prefix("todos")->group(function(){
     Route::get("/","getTodos");
     Route::post("/","createTodo");
     Route::patch("/{id}","updateTodo");
+    Route::delete("/{id}","deleteTodo");
 });
