@@ -32,7 +32,7 @@ class TodoService{
     }
     public function updateTodo(int $id,string | null $name,bool | null $is_finished){
         try {
-            $todo=Todo::find($id);
+            $todo=Todo::find($id)->where("is_deleted",false)->first();
             if(!$todo){
                 return HttpStatusEnum::NOT_FOUND;
             }
@@ -53,7 +53,7 @@ class TodoService{
     }
     public function deleteTodo(int $id){
     try { 
-        $todo=Todo::find($id);
+        $todo=Todo::find($id)->where("is_deleted",false)->first();
         if(!$todo){
             return HttpStatusEnum::NOT_FOUND;
         }

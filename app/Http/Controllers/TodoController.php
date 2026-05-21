@@ -29,7 +29,7 @@ class TodoController extends Controller
                     HttpStatusEnum::INTERNAL_SERVER_ERROR => response()->json(["message"=>"שגיאת שרת"],Response::HTTP_INTERNAL_SERVER_ERROR),
                 };
             }
-            return response()->json("מטלה נוצרה",Response::HTTP_CREATED);
+            return response()->json($result,Response::HTTP_CREATED);
     }
     public function updateTodo($id,updateTodoRequest $request){
         $result =$this->todo_service->updateTodo($id,$request->name,$request->is_finished);
@@ -39,7 +39,7 @@ class TodoController extends Controller
                     HttpStatusEnum::NOT_FOUND => response()->json(["message"=>"מטלה לא נמצאה"],Response::HTTP_NOT_FOUND),
                 };
             }
-            return response()->json("מטלה עודכנה",Response::HTTP_OK);
+            return response()->json($result,Response::HTTP_OK);
     }
     public function deleteTodo($id){
         $result=$this->todo_service->deleteTodo($id);
