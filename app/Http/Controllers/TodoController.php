@@ -13,8 +13,8 @@ class TodoController extends Controller
 {
     public function __construct(private TodoService $todo_service){}
     
-    public function getTodos(){
-            $result = $this->todo_service->getTodos();
+    public function getTodos($filter){
+        $result = $this->todo_service->getTodos($filter);
             if($result instanceof HttpStatusEnum){
                 return match ($result){
                     HttpStatusEnum::INTERNAL_SERVER_ERROR => response()->json(["message"=>"שגיאת שרת"],Response::HTTP_INTERNAL_SERVER_ERROR),

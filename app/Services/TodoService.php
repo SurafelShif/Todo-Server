@@ -8,16 +8,28 @@ use Illuminate\Support\Facades\Log;
 
 class TodoService{
 
-   public function getTodos(){
-        try {
-            $todos=Todo::where("is_deleted",false)->select(["id","name","is_finished","created_at"])->get();
-            return $todos;
-        } catch (\Exception $th) {
-            Log::error($th->getMessage());
-            return HttpStatusEnum::INTERNAL_SERVER_ERROR;
+   public function getTodos($filter)
+{
+    try {
+        $query = Todo::query()
+            ->where("is_deleted", false)
+            ->select(["id", "name", "is_finished", "created_at"]);
+
+        if ($filter === "completed") {
+            $query->where("is_finished", true);
         }
 
-   }
+        if ($filter === "uncompleted") {
+            $query->where("is_finished", false);
+        }
+
+        return $query->get();
+
+    } catch (\Exception $e) {
+        Log::error($e->getMessage());
+        return HttpStatusEnum::INTERNAL_SERVER_ERROR;
+    }
+}
    public function createTodo(string $name){
     try {
         $result=Todo::create([
