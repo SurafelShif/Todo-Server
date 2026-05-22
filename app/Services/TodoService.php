@@ -15,11 +15,11 @@ class TodoService{
             ->where("is_deleted", false)
             ->select(["id", "name", "is_finished", "created_at"]);
 
-        if ($filter === "completed") {
+        if ($filter === "finished") {
             $query->where("is_finished", true);
         }
 
-        if ($filter === "uncompleted") {
+        if ($filter === "unfinished") {
             $query->where("is_finished", false);
         }
 
