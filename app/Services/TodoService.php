@@ -44,7 +44,8 @@ class TodoService{
     }
     public function updateTodo(int $id,string | null $name,bool | null $is_finished){
         try {
-            $todo=Todo::find($id)->where("is_deleted",false)->first();
+            $todo=Todo::where("is_deleted",false)->find($id);
+
             if(!$todo){
                 return HttpStatusEnum::NOT_FOUND;
             }
@@ -65,7 +66,7 @@ class TodoService{
     }
     public function deleteTodo(int $id){
     try { 
-        $todo=Todo::find($id)->where("is_deleted",false)->first();
+        $todo=Todo::where("is_deleted",false)->find($id);
         if(!$todo){
             return HttpStatusEnum::NOT_FOUND;
         }
